@@ -1,0 +1,34 @@
+name: Run application via Docker Compose
+
+on:
+  workflow_call:
+     inputs:
+      compose_service:
+        description: 'Docker compose service name for scaling'
+        type: string
+        required: false
+        default: 'app'
+
+jobs:
+   compose-up:
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1  
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Pre-pull new Docker-image
+        run: |
+          /usr/bin/docker compose pull --quiet
+      -
+        name: Update and start App
+        run: |
+          /usr/bin/docker compose up --detach --scale ${{ inputs.compose_service }}=${{ secrets.REPLICAS }}
