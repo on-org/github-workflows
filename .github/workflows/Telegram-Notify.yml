@@ -4,7 +4,8 @@ on:
   workflow_call:
 
 jobs:
-   notify:
+  notify:
+    runs-on: 'self-hosted, linux, x64, gpu'
     steps:
       -
         name: Telegram Notify Success

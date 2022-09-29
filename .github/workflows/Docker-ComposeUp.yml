@@ -2,15 +2,21 @@ name: Run application via Docker Compose
 
 on:
   workflow_call:
-     inputs:
+    inputs:
+      runner_labels:
+        type: string
+        required: true
+        default: 'self-hosted, linux, x64, deploy'
       compose_service:
         description: 'Docker compose service name for scaling'
         type: string
-        required: false
+        required: true
         default: 'app'
 
+
 jobs:
-   compose-up:
+  compose-up:
+    runs-on: 'self-hosted, linux, x64, deploy'
     steps:
       -
         name: Checkout
