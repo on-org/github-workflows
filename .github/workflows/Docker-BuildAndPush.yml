@@ -18,8 +18,6 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ github.repository }}
-      -
-        name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -31,4 +29,4 @@ jobs:
         with:
           network: host
           push: true
-          tags: ghcr.io/${{ steps.meta.outputs.tags }}:${{ github.ref_name }}
+          tags: ghcr.io/${{ steps.meta.outputs.tags }}
