@@ -16,7 +16,7 @@ on:
 
 jobs:
   compose-up:
-    runs-on: ${{ inputs.compose_service }}
+    runs-on: ${{ inputs.runner_labels }}
     steps:
       -
         name: Checkout
