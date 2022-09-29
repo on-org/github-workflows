@@ -6,7 +6,7 @@ on:
       runner_labels:
         type: string
         required: true
-        default: 'self-hosted, linux, x64, deploy'
+        default: 'deployer'
       compose_service:
         description: 'Docker compose service name for scaling'
         type: string
@@ -16,7 +16,7 @@ on:
 
 jobs:
   compose-up:
-    runs-on: deploy
+    runs-on: ${{ inputs.compose_service }}
     steps:
       -
         name: Checkout
