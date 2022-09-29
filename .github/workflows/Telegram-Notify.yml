@@ -5,7 +5,7 @@ on:
 
 jobs:
   notify:
-    runs-on: 'self-hosted, linux, x64, gpu'
+    runs-on: self-hosted
     steps:
       -
         name: Telegram Notify Success

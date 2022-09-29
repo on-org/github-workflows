@@ -16,7 +16,7 @@ on:
 
 jobs:
   compose-up:
-    runs-on: 'self-hosted, linux, x64, deploy'
+    runs-on: deploy
     steps:
       -
         name: Checkout
