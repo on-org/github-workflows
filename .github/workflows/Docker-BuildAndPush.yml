@@ -7,10 +7,23 @@ on:
         type: string
         required: true
         default: 'ghcr.io'
+      latest:
+        type: string
+        required: true
+        default: 'auto'
+      prefix:
+        type: string
+        required: false
+        default: ''
+      suffix:
+        type: string
+        required: false
+        default: ''
       target:
         type: string
         required: false
         default: ''
+
 jobs:
   build:
     runs-on: self-hosted
@@ -26,6 +39,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ inputs.registry }}/${{ github.repository }}
+          flavor:
+            latest: ${{ inputs.latest }}
+            prefix: ${{ inputs.prefix }}
+            suffix: ${{ inputs.suffix }}
       -
         name: Login to GitHub Container Registry          
         uses: docker/login-action@v2
