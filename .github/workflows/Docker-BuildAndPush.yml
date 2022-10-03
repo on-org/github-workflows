@@ -9,7 +9,7 @@ on:
         default: 'ghcr.io'
       latest:
         type: string
-        required: true
+        required: false
         default: 'auto'
       prefix:
         type: string
