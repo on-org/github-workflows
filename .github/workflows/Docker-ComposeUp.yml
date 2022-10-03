@@ -12,7 +12,11 @@ on:
         type: string
         required: true
         default: 'app'
-
+      compose_path:
+        description: 'Path ot Docker compose file'
+        type: string
+        required: true
+        default: 'docker-compose.yml'
 
 jobs:
   compose-up:
@@ -37,4 +41,4 @@ jobs:
       -
         name: Update and start App
         run: |
-          /usr/bin/docker compose up --detach --scale ${{ inputs.compose_service }}=${{ secrets.REPLICAS }}
+          /usr/bin/docker compose -f ${{ inputs.compose_path }} up --detach
