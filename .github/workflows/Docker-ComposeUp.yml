@@ -17,10 +17,16 @@ on:
         type: string
         required: true
         default: 'docker-compose.yml'
-
+      compose_env_file_path:
+        description: 'Path ot env_file file'
+        type: string
+        required: false
+        default: 'docker/.env'
 jobs:
   compose-up:
     runs-on: ${{ inputs.runner_labels }}
+    env:
+      ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
     steps:
       -
         name: Checkout
@@ -34,11 +40,34 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - 
+        name: Generate .env file from secrets
+        if: ${{ env.ENV_FILE_CONTENT_BASE64 != '' }}
+        run: |
+          echo $ENV_FILE_CONTENT_BASE64 | base64 -d > ${{ inputs.compose_env_file_path }}
+      - 
+        name: Get .env file content
+        if: ${{ env.ENV_FILE_CONTENT_BASE64 != '' }}
+        run: |
+          cat ${{ inputs.compose_env_file_path }} 
+      -
+        name: Lint and show compose manifest
+        run: |
+          /usr/bin/docker compose \
+          -f ${{ inputs.compose_path }} \
+          --env-file ${{ inputs.compose_env_file_path }} \
+          convert
       -
         name: Pre-pull new Docker-image
         run: |
-          /usr/bin/docker compose pull --quiet
+          /usr/bin/docker compose \
+          -f ${{ inputs.compose_path }} \
+          --env-file ${{ inputs.compose_env_file_path }}
+          pull --quiet
       -
         name: Update and start App
         run: |
-          /usr/bin/docker compose -f ${{ inputs.compose_path }} up --detach
+          /usr/bin/docker compose \
+          -f ${{ inputs.compose_path }} \
+          --env-file ${{ inputs.compose_env_file_path }}
+          up --detach
