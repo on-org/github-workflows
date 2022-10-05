@@ -70,5 +70,5 @@ jobs:
           file: ${{ inputs.file }}
           network: ${{ inputs.network }}
           push: true
-          tags: ${{ inputs.registry }}/${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           target: ${{ inputs.target }}
