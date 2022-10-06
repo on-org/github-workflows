@@ -6,7 +6,15 @@ on:
       enabled:
         type: boolean
         required: false
-        default: true  
+        default: true
+      success_title:
+        type: string
+        required: false
+        default: 'Default Success Title'
+      fail_title: 
+        type: string
+        required: false
+        default: 'Default Failure Title'
 
 jobs:
   notify:
@@ -21,7 +29,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ℹ️ * ONLINESIM MIRROR UPDATED *
+            ℹ️ * ${{ inputs.success_title }} *
             🆚 *Version: ${{  github.ref_name }}*
             ✅ *The deploy has been completed.*
             🧑‍💻 Developer: *${{github.actor}}*
@@ -37,7 +45,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ❌ * ONLINESIM MIRROR FAILED *
+            ❌ * ${{ inputs.fail_title }} *
             🧑‍💻 Developer: *${{github.actor}}*
             🔗 [GITHUB](https://github.com/${{github.repository}})
           format: markdown
