@@ -2,9 +2,15 @@ name: Send Telegram Notification
 
 on:
   workflow_call:
+  inputs:
+      enabled:
+        type: boolean
+        required: false
+        default: true  
 
 jobs:
   notify:
+    if: ${{ inputs.enabled }}
     runs-on: ci-server
     steps:
       -

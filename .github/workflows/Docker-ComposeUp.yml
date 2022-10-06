@@ -3,6 +3,10 @@ name: Run application via Docker Compose
 on:
   workflow_call:
     inputs:
+      enabled:
+        type: boolean
+        required: false
+        default: true
       registry:
         type: string
         required: false
@@ -40,6 +44,7 @@ on:
         required: true
 jobs:
   compose-up:
+    if: ${{ inputs.enabled }}  
     runs-on: ci-server
     env:
       ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
@@ -77,6 +82,7 @@ jobs:
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags[0] }}
         run: >
+          printenv ; 
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}

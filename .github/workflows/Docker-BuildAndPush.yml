@@ -3,6 +3,10 @@ name: Build and push Docker images
 on:
   workflow_call:
     inputs:
+      enabled:
+        type: boolean
+        required: false
+        default: true
       context:
         type: string
         default: '.'
@@ -38,6 +42,7 @@ on:
 
 jobs:
   build:
+    if: ${{ inputs.enabled }}
     runs-on: ci-server
     steps:
       -
