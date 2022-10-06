@@ -80,10 +80,8 @@ jobs:
       - 
         name: Lint and show compose manifest
         env:
-          IMAGE_NAME: ${{ steps.meta.outputs.tags }};
+          IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
-          echo ${{ steps.meta.outputs.tags }};
-          printenv | sort -n; 
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
@@ -91,7 +89,7 @@ jobs:
       -
         name: Pre-pull new Docker-image
         env:
-          IMAGE_NAME: ${{ steps.meta.outputs.tags }};
+          IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose 
           -f ${{ inputs.compose_path }}
@@ -100,7 +98,7 @@ jobs:
       -
         name: Update and start App
         env:
-          IMAGE_NAME: ${{ steps.meta.outputs.tags }};
+          IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
