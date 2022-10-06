@@ -80,7 +80,7 @@ jobs:
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          convert
+          convert ${{ inputs.compose_service }}
       -
         name: Pre-pull new Docker-image
         env:
@@ -89,7 +89,7 @@ jobs:
           /usr/bin/docker compose 
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          pull --quiet
+          pull --quiet ${{ inputs.compose_service }}
       -
         name: Update and start App
         env:
@@ -98,4 +98,4 @@ jobs:
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          up --detach
+          up --detach ${{ inputs.compose_service }}
