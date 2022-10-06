@@ -2,7 +2,7 @@ name: Send Telegram Notification
 
 on:
   workflow_call:
-  inputs:
+    inputs:
       enabled:
         type: boolean
         required: false
