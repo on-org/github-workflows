@@ -43,7 +43,7 @@ jobs:
     runs-on: ci-server
     env:
       ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
-      DOCKER_HOST: {{ inputs.docker_host }}
+      DOCKER_HOST: ${{ inputs.docker_host }}
     steps:
       -
         name: Checkout
