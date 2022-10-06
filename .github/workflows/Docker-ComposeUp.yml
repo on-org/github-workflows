@@ -42,6 +42,11 @@ on:
         description: 'Docker host to run on'
         type: string
         required: true
+      project:
+        description: 'Docker host to run on'
+        type: string
+        required: true
+
 jobs:
   compose-up:
     if: ${{ inputs.enabled }}  
@@ -83,6 +88,7 @@ jobs:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose
+          -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
           convert ${{ inputs.compose_service }}
@@ -91,7 +97,8 @@ jobs:
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
-          /usr/bin/docker compose 
+          /usr/bin/docker compose
+          -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
           pull --quiet ${{ inputs.compose_service }}
@@ -101,6 +108,7 @@ jobs:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose
+          -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
           up --detach ${{ inputs.compose_service }}
