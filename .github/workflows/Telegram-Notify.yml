@@ -5,7 +5,7 @@ on:
 
 jobs:
   notify:
-    runs-on: self-hosted
+    runs-on: ci-server
     steps:
       -
         name: Telegram Notify Success

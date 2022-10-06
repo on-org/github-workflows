@@ -38,7 +38,7 @@ on:
 
 jobs:
   build:
-    runs-on: proxy-reseller
+    runs-on: ci-server
     steps:
       -
         name: Checkout
