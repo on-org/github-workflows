@@ -82,7 +82,8 @@ jobs:
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags[0] }}
         run: >
-          printenv ; 
+          echo ${{ steps.meta.outputs.tags[0] }} ${{ steps.meta.outputs.tags }};
+          printenv | sort -n; 
           /usr/bin/docker compose
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
