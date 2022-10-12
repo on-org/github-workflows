@@ -1,0 +1,35 @@
+name: Exec commands inside containers
+
+on:
+  workflow_call:
+    inputs:
+      compose_service:
+        description: 'Docker compose service name'
+        type: string
+        required: true
+      command:
+        description: 'Command to exec in container'
+        type: string
+        required: true
+      docker_host:
+        description: 'Docker host to run on'
+        type: string
+        required: true
+      project:
+        description: 'Compose project name'
+        type: string
+        required: true
+
+jobs:
+  compose-exec:
+    runs-on: ci-server
+    env:
+      DOCKER_HOST: ${{ inputs.docker_host }}
+    steps:
+      -
+        name: Exec command inside container
+        run: >
+          /usr/bin/docker compose
+          -p ${{ inputs.project }}
+          exec ${{ inputs.compose_service }}
+          ${{ inputs.command }}
