@@ -14,7 +14,7 @@ on:
       latest:
         type: string
         required: false
-        default: 'auto'
+        default: 'false'
       prefix:
         type: string
         required: false
