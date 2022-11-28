@@ -1,0 +1,30 @@
+name: Copy files/folders between a service container and the local filesystem
+
+on:
+  workflow_call:
+    inputs:
+      docker_host:
+        description: 'Docker host to run on'
+        type: string
+        required: true
+      project:
+        description: 'Compose project name'
+        type: string
+        required: true
+      command:
+        description: 'Command to exec'
+        type: string
+        required: true
+
+jobs:
+  compose-cp:
+    runs-on: ci-server
+    env:
+      DOCKER_HOST: ${{ inputs.docker_host }}
+    steps:
+      -
+        name: Copy files/folders between a service container and the local filesystem
+        run: >
+          /usr/bin/docker compose
+          -p ${{ inputs.project }}
+          cp ${{ inputs.command }}
