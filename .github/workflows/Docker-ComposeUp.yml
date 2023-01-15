@@ -54,6 +54,7 @@ jobs:
     env:
       ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
       DOCKER_HOST: ${{ inputs.docker_host }}
+      APP_ENV_FILE: ${{ inputs.compose_env_file_path }}
     steps:
       -
         name: Checkout
