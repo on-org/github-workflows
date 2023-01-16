@@ -3,18 +3,22 @@ name: Build and push Docker images
 on:
   workflow_call:
     inputs:
+      args:
+        type: string
+        required: false
+        default: ''
       enabled:
         type: boolean
         required: false
         default: true
       context:
         type: string
-        default: '.'
         required: true
+        default: '.'        
       file:
         type: string
+        required: true 
         default: 'Dockerfile'
-        required: true    
       registry:
         type: string
         required: true
@@ -71,6 +75,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          build-args: ${{ inputs.args }}
           context: ${{ inputs.context }}
           file: ${{ inputs.file }}
           network: ${{ inputs.network }}
