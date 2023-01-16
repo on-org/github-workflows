@@ -13,15 +13,15 @@ on:
         default: true
       context:
         type: string
-        required: true
+        required: false
         default: '.'        
       file:
         type: string
-        required: true 
+        required: false 
         default: 'Dockerfile'
       registry:
         type: string
-        required: true
+        required: false
         default: 'ghcr.io'
       latest:
         type: string

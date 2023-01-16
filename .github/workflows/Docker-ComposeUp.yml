@@ -31,19 +31,19 @@ on:
       compose_path:
         description: 'Path ot Docker compose file'
         type: string
-        required: true
+        required: false
         default: 'docker-compose.yml'
       compose_env_file_path:
         description: 'Path ot env_file file'
         type: string
         required: false
-        default: 'docker/.env'
+        default: '.env'
       docker_host:
         description: 'Docker host to run on'
         type: string
         required: true
       project:
-        description: 'Docker host to run on'
+        description: 'Compose project name'
         type: string
         required: true
 
