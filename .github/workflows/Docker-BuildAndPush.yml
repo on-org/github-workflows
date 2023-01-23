@@ -10,14 +10,14 @@ on:
       context:
         type: string
         default: '.'
-        required: true
+        required: false
       file:
         type: string
         default: 'Dockerfile'
         required: true    
       registry:
         type: string
-        required: true
+        required: false
         default: 'ghcr.io'
       latest:
         type: string
