@@ -46,6 +46,11 @@ on:
         description: 'Compose project name'
         type: string
         required: true
+      compose_timeout:
+        description: 'Timeout in seconds for container shutdown when containers are already running'
+        type: number
+        required: false
+        default: 10
 
 jobs:
   compose-up:
@@ -112,4 +117,4 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          up --detach ${{ inputs.compose_service }}
+          up --detach --timeout ${{ inputs.compose_timeout }} ${{ inputs.compose_service }}
