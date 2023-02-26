@@ -1,0 +1,35 @@
+name: Run a one-off command on a service
+
+on:
+  workflow_call:
+    inputs:
+      compose_service:
+        description: 'Docker compose service name'
+        type: string
+        required: true
+      command:
+        description: 'Command to exec'
+        type: string
+        required: true
+      docker_host:
+        description: 'Docker host to run on'
+        type: string
+        required: true
+      project:
+        description: 'Docker compose project name'
+        type: string
+        required: true
+
+jobs:
+  compose-exec:
+    runs-on: ci-server
+    env:
+      DOCKER_HOST: ${{ inputs.docker_host }}
+    steps:
+      -
+        name: Run a one-off command on a service
+        run: >
+          /usr/bin/docker compose
+          -p ${{ inputs.project }}
+          run --rm ${{ inputs.compose_service }}
+          ${{ inputs.command }}
