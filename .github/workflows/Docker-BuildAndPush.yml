@@ -77,3 +77,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           target: ${{ inputs.target }}
+          provenance: false
