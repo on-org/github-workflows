@@ -1,1 +1,1 @@
-# deploy-server
+# CI/CD pipelines
