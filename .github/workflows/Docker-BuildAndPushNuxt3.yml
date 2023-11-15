@@ -1,4 +1,4 @@
-name: Build and push Docker images
+name: Build and push Docker images nuxt 3
 
 on:
   workflow_call:
@@ -39,6 +39,10 @@ on:
         type: string
         required: false
         default: ''
+      tag:
+        type: string
+        required: false
+        default: 'work'
       network:
         type: string
         required: false
@@ -84,5 +88,5 @@ jobs:
           file: ${{ inputs.file }}
           network: ${{ inputs.network }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}
           target: ${{ inputs.target }}

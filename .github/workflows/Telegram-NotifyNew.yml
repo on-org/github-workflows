@@ -1,0 +1,52 @@
+name: Send Telegram Notification
+
+on:
+  workflow_call:
+    inputs:
+      enabled:
+        type: boolean
+        required: false
+        default: true
+      success_title:
+        type: string
+        required: false
+        default: 'Default Success Title'
+      fail_title:
+        type: string
+        required: false
+        default: 'Default Failure Title'
+
+jobs:
+  notify:
+    if: ${{ inputs.enabled }}
+    runs-on: ci-server
+    steps:
+      -
+        name: Telegram Notify Success
+        uses: s00d/fast-telegram-action@v9
+        if: ${{ success() }}
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ℹ️ * ${{ inputs.success_title }} *
+            🆚 *Version: ${{  github.ref_name }}*
+            ✅ *The deploy has been completed.*
+            🧑‍💻 Developer: *${{github.actor}}*
+            💬 Commit: [${{ github.event.head_commit.id }}](https://github.com/${{github.repository}}/commit/${{ github.event.head_commit.id }})
+            🔗 [GITHUB](https://github.com/${{github.repository}})
+          format: markdown
+          disable_web_page_preview: "True"
+      -
+        name: Telegram Notify Failure
+        uses: s00d/fast-telegram-action@v9
+        if: ${{ failure() }}
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ❌ * ${{ inputs.fail_title }} *
+            🧑‍💻 Developer: *${{github.actor}}*
+            🔗 [GITHUB](https://github.com/${{github.repository}})
+          format: markdown
+          disable_web_page_preview: "True"
