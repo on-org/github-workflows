@@ -37,7 +37,7 @@ on:
         description: 'Path ot env_file file'
         type: string
         required: false
-        default: '.env'
+        default: ''
       docker_host:
         description: 'Docker host to run on'
         type: string
