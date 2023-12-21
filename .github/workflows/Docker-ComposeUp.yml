@@ -96,7 +96,12 @@ jobs:
 #          echo $ENV_FILE_CONTENT_BASE64 | base64 -d > ${{ inputs.compose_env_file_path }}
 
       - name: Generate .env file
-        run: echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+        run: |
+          if [ "${{ secrets.env_vars }}" == "" ]; then
+            echo "ENV_VARS is empty"
+          else
+            echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+          fi
 
       - name: Lint and show compose manifest
         env:
