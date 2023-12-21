@@ -50,26 +50,28 @@ on:
         type: string
         required: false
         default: 'work'
+    secrets:
+      env_vars:
+        required: false
 
 jobs:
   compose-up:
     if: ${{ inputs.enabled }}
     runs-on: ci-server
     env:
-      ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
+#      ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
       DOCKER_HOST: ${{ inputs.docker_host }}
     steps:
-      -
-        name: cleanup
+      - name: cleanup
         run: sudo rm -fr $GITHUB_WORKSPACE && mkdir $GITHUB_WORKSPACE
-      -
-        name: Checkout
+
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-      -
-        name: Get Docker metadata
+
+      - name: Get Docker metadata
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -78,16 +80,18 @@ jobs:
             latest=${{ inputs.latest }}
             prefix=${{ inputs.prefix }}
             suffix=${{ inputs.suffix }}
-      -
-        name: Login to Container Registry
+
+      - name: Login to Container Registry
         uses: docker/login-action@v2
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      -
-        name: Lint and show compose manifest
+#      - name: Generate .env file
+#        run: echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+
+      - name: Lint and show compose manifest
         env:
           IMAGE_NAME: ${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}
         run: >
@@ -95,8 +99,8 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           convert ${{ inputs.compose_service }}
-      -
-        name: Pre-pull new Docker-image
+
+      - name: Pre-pull new Docker-image
         env:
           IMAGE_NAME: ${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}
         run: >
@@ -104,8 +108,8 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           pull --quiet ${{ inputs.compose_service }}
-      -
-        name: Update and start App
+
+      - name: Update and start App
         env:
           IMAGE_NAME: ${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tag }}
         run: >

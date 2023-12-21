@@ -51,27 +51,29 @@ on:
         type: number
         required: false
         default: 10
+    secrets:
+      env_vars:
+        required: false
 
 jobs:
   compose-up:
     if: ${{ inputs.enabled }}
     runs-on: ci-server
     env:
-      ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
+#      ENV_FILE_CONTENT_BASE64: ${{ secrets.ENV_FILE_CONTENT_BASE64 }}
       DOCKER_HOST: ${{ inputs.docker_host }}
       APP_ENV_FILE: ${{ inputs.compose_env_file_path }}
     steps:
-      -
-        name: cleanup
+      - name: cleanup
         run: sudo rm -fr $GITHUB_WORKSPACE && mkdir $GITHUB_WORKSPACE
-      -
-        name: Checkout
+
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-      -
-        name: Get Docker metadata
+
+      - name: Get Docker metadata
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -80,20 +82,23 @@ jobs:
             latest=${{ inputs.latest }}
             prefix=${{ inputs.prefix }}
             suffix=${{ inputs.suffix }}
-      -
-        name: Login to Container Registry
+
+      - name: Login to Container Registry
         uses: docker/login-action@v2
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Generate .env file from secrets
-        if: ${{ env.ENV_FILE_CONTENT_BASE64 != '' }}
-        run: >
-          echo $ENV_FILE_CONTENT_BASE64 | base64 -d > ${{ inputs.compose_env_file_path }}
-      -
-        name: Lint and show compose manifest
+
+#      - name: Generate .env file from secrets
+#        if: ${{ env.ENV_FILE_CONTENT_BASE64 != '' }}
+#        run: >
+#          echo $ENV_FILE_CONTENT_BASE64 | base64 -d > ${{ inputs.compose_env_file_path }}
+
+      - name: Generate .env file
+        run: echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+
+      - name: Lint and show compose manifest
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
@@ -102,8 +107,8 @@ jobs:
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
           convert ${{ inputs.compose_service }}
-      -
-        name: Pre-pull new Docker-image
+
+      - name: Pre-pull new Docker-image
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
@@ -112,8 +117,8 @@ jobs:
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
           pull --quiet ${{ inputs.compose_service }}
-      -
-        name: Update and start App
+
+      - name: Update and start App
         env:
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
