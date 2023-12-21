@@ -97,11 +97,7 @@ jobs:
 
       - name: Generate .env file
         run: |
-          if [ "${{ secrets.env_vars }}" == "" ]; then
-            echo "ENV_VARS is empty"
-          else
-            echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
-          fi
+          echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
 
       - name: Lint and show compose manifest
         env:
