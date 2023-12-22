@@ -101,10 +101,10 @@ jobs:
         run: |
           echo "${{ secrets.env_vars }}" > tmp.vars
           if [ -s tmp.vars ]; then
-            echo "Variable is empty. No deed to re-write the file"
-          else
             echo "Setting variable"
             echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+          else
+            echo "Variable is empty. No deed to re-write the file"
           fi
           rm tmp.vars
 
