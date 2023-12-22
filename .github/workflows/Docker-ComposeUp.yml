@@ -97,7 +97,14 @@ jobs:
 
       - name: Generate .env file
         run: |
-          echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+          echo "${{ secrets.env_vars }}" > tmp.vars
+          if [ -s tmp.vars ]; then
+            echo "Variable is empty. No deed to re-write the file"
+          else
+            echo "Setting variable"
+            echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+          fi
+          rm tmp.vars
 
       - name: Lint and show compose manifest
         env:
