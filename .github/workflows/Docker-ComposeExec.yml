@@ -49,5 +49,6 @@ jobs:
         run: >
           /usr/bin/docker compose
           -p ${{ inputs.project }}
+          --env-file ${{ inputs.compose_env_file_path }}
           exec ${{ inputs.compose_service }}
           ${{ inputs.command }}
