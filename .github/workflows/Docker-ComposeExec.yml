@@ -8,7 +8,7 @@ on:
         type: string
         required: true
       compose_env_file_path:
-        description: 'Path ot env_file file'
+        description: 'Path to env_file file'
         type: string
         required: false
         default: '.env'
