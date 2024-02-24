@@ -19,6 +19,9 @@ on:
         description: 'Compose project name'
         type: string
         required: true
+    secrets:
+      env_vars:
+        required: false
 
 jobs:
   compose-exec:
@@ -26,8 +29,18 @@ jobs:
     env:
       DOCKER_HOST: ${{ inputs.docker_host }}
     steps:
-      -
-        name: Exec command inside container
+      - name: Generate .env file
+        run: |
+          echo "${{ secrets.env_vars }}" > tmp.vars
+          if [ -s tmp.vars ]; then
+            echo "Setting variable"
+            echo "${{ secrets.env_vars }}" > ${{ inputs.compose_env_file_path }}
+          else
+            echo "Variable is empty. No deed to re-write the file"
+          fi
+          rm tmp.vars
+    
+      - name: Exec command inside container
         run: >
           /usr/bin/docker compose
           -p ${{ inputs.project }}
