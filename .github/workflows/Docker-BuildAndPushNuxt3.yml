@@ -74,7 +74,7 @@ jobs:
             suffix=${{ inputs.suffix }}
       -
         name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
