@@ -80,7 +80,7 @@ jobs:
 
       - name: Get Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ inputs.registry }}/${{ github.repository }}
           flavor: |
@@ -89,7 +89,7 @@ jobs:
             suffix=${{ inputs.suffix }}
 
       - name: Login to Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}

@@ -59,7 +59,7 @@ jobs:
       -
         name: Get Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ inputs.registry }}/${{ github.repository }}
           flavor: |
@@ -69,7 +69,7 @@ jobs:
 
       -
         name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
@@ -89,7 +89,7 @@ jobs:
 
       -
         name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           build-args: ${{ inputs.args }}
           context: ${{ inputs.context }}
