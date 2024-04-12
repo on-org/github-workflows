@@ -51,6 +51,11 @@ on:
         type: number
         required: false
         default: 10
+      custom_options:
+        description: 'Custom docker compose up options'
+        type: string
+        required: false
+        default: ''
     secrets:
       env_vars:
         required: false
@@ -136,4 +141,4 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          up --detach --timeout ${{ inputs.compose_timeout }} ${{ inputs.compose_service }}
+          up --detach --timeout ${{ inputs.compose_timeout }} ${{ inputs.custom_options }} ${{ inputs.compose_service }}
