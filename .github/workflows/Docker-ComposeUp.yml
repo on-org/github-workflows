@@ -51,6 +51,11 @@ on:
         type: number
         required: false
         default: 10
+      custom_options:
+        description: 'Custom docker compose up options'
+        type: string
+        required: false
+        default: ''
     secrets:
       env_vars:
         required: false
@@ -68,14 +73,14 @@ jobs:
         run: sudo rm -fr $GITHUB_WORKSPACE && mkdir $GITHUB_WORKSPACE
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Get Docker metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ${{ inputs.registry }}/${{ github.repository }}
           flavor: |
@@ -84,7 +89,7 @@ jobs:
             suffix=${{ inputs.suffix }}
 
       - name: Login to Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
@@ -136,4 +141,4 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          up --detach --timeout ${{ inputs.compose_timeout }} ${{ inputs.compose_service }}
+          up --detach --timeout ${{ inputs.compose_timeout }} ${{ inputs.custom_options }} ${{ inputs.compose_service }}
