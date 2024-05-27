@@ -120,8 +120,8 @@ jobs:
           /usr/bin/docker compose
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
-          --env-file ${{ inputs.compose_env_file_path }}
-          convert ${{ inputs.custom_options }} ${{ inputs.compose_service }}
+          --env-file ${{ inputs.compose_env_file_path }} ${{ inputs.custom_options }}
+          convert ${{ inputs.compose_service }}
 
       - name: Pre-pull new Docker-image
         env:
@@ -130,8 +130,8 @@ jobs:
           /usr/bin/docker compose
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
-          --env-file ${{ inputs.compose_env_file_path }}
-          pull --quiet ${{ inputs.custom_options }} ${{ inputs.compose_service }}
+          --env-file ${{ inputs.compose_env_file_path }} ${{ inputs.custom_options }}
+          pull --quiet ${{ inputs.compose_service }}
 
       - name: Update and start App
         env:
