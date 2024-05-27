@@ -121,7 +121,7 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          convert ${{ inputs.custom_options }} ${{ inputs.compose_service }} }
+          convert ${{ inputs.custom_options }} ${{ inputs.compose_service }}
 
       - name: Pre-pull new Docker-image
         env:
@@ -131,7 +131,7 @@ jobs:
           -p ${{ inputs.project }}
           -f ${{ inputs.compose_path }}
           --env-file ${{ inputs.compose_env_file_path }}
-          pull --quiet ${{ inputs.custom_options }} ${{ inputs.compose_service }} }
+          pull --quiet ${{ inputs.custom_options }} ${{ inputs.compose_service }}
 
       - name: Update and start App
         env:
