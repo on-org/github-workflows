@@ -27,7 +27,7 @@ on:
         description: 'Docker compose service name for scaling'
         type: string
         required: false
-        default: 'app'
+        default: ''
       compose_path:
         description: 'Path ot Docker compose file'
         type: string
