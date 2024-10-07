@@ -43,6 +43,9 @@ on:
         type: string
         required: false
         default: 'host'
+    secrets:
+      env_vars:
+        required: false
 
 jobs:
   build:
@@ -75,6 +78,17 @@ jobs:
           registry: ${{ inputs.registry }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Generate .env file
+        run: |
+          echo "${{ secrets.env_vars }}" > tmp.vars
+          if [ -s tmp.vars ]; then
+            echo "Setting variable"
+            echo "${{ secrets.env_vars }}" > .env
+          else
+            echo "Variable is empty. No deed to re-write the file"
+          fi
+          rm tmp.vars
       -
         name: Build and push
         uses: docker/build-push-action@v5
