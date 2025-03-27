@@ -125,7 +125,6 @@ jobs:
 
       - name: Pre-pull new Docker-image
         env:
-          DOCKER_HOST: ${{ inputs.docker_host }}
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose
@@ -136,7 +135,6 @@ jobs:
 
       - name: Update and start App
         env:
-          DOCKER_HOST: ${{ inputs.docker_host }}
           IMAGE_NAME: ${{ steps.meta.outputs.tags }}
         run: >
           /usr/bin/docker compose
