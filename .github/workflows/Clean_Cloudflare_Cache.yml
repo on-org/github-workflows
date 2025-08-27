@@ -1,0 +1,22 @@
+name: Clean CF Cache
+
+on:
+  workflow_call:
+    secrets:
+      zone_id:
+        required: true
+      token:
+        required: true
+      hosts:
+        required: true
+
+jobs:
+  clean-cacje:
+    runs-on: ci-server
+    steps:
+      - name: Clean CF Cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.zone_id }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.token }}" \
+            -H "Content-Type: application/json" \
+            -d '{"hosts":["${{ secrets.hosts }}"]}'
