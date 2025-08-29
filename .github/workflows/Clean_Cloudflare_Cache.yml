@@ -11,7 +11,7 @@ on:
         required: true
 
 jobs:
-  clean-cacje:
+  clean-cache:
     runs-on: ci-server
     steps:
       - name: Clean CF Cache
