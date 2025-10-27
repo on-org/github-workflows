@@ -19,4 +19,4 @@ jobs:
           curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.zone_id }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.token }}" \
             -H "Content-Type: application/json" \
-            -d '{"hosts":["${{ secrets.hosts }}"],"purge_everything": true}'
+            -d '{"hosts":["${{ secrets.hosts }}"]}'
